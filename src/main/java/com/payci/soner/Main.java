@@ -1,7 +1,6 @@
 package com.payci.soner;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -51,13 +50,14 @@ public class Main {
 		List<Method> methods = ReflectionHelper.getAllMethods(repositoryClass);
 		
 		for(Method method : methods) {
-			ArrayList<Class<?>> parameterTypesOfMethod = ReflectionHelper.getParameterTypes(method);
+//			ArrayList<Class<?>> parameterTypesOfMethod = ReflectionHelper.getParameterTypes(method);
 			String commandName = sb.append(className)
 					.append('_')
 					.append(method.getName())
 					.toString();
 			sb.setLength(0);
-			MethodTbl methodTbl = new MethodTbl(method.getName(), commandName, parameterTypesOfMethod);
+//			MethodTbl methodTbl = new MethodTbl(method.getName(), commandName, parameterTypesOfMethod);
+			MethodTbl methodTbl = new MethodTbl(method.getName(), commandName);
 			repositoryTbl.addMethod(methodTbl);
 		}
 		classTblRepository.save(repositoryTbl);

@@ -7,18 +7,29 @@ import com.payci.soner.entities.Account;
 import com.payci.soner.entities.Address;
 import com.payci.soner.entities.Customer;
 import com.payci.soner.entities.Phone;
+import com.payci.soner.helpers.data.carrier.Bag;
 import com.payci.soner.hibernate.CustomerRepository;
 
 public class CustomerOperations {
 
-	public void createStandaloneCustomer() {
-		Customer customer = new Customer("John", "Doe");
+	public Bag createStandaloneCustomer(Bag inBag) {
+		Bag outBag = new Bag();
+		
+		// TODO : check here.
+		String name = (String)inBag.get("NAME");
+		String lastName = (String)inBag.get("LAST_NAME");
+		
+		Customer customer = new Customer(name, lastName);
 		
 		CustomerRepository customerRepository = new CustomerRepository();
 		customerRepository.saveOrUpdate(customer);
+		
+		return outBag;
 	}
 	
-	public void createFullCustomer() {
+	public Bag createFullCustomer(Bag inBag) {
+		Bag outBag = new Bag();
+		
 		CustomerRepository customerRepository = new CustomerRepository();
 
 		Customer customer = new Customer("Full", "Customer");
@@ -36,12 +47,33 @@ public class CustomerOperations {
 		customer.addPhone(phone);
 
 		customerRepository.saveOrUpdate(customer);
+		
+		return outBag;
 	}
 	
-	public Customer getRandomCustomer() {
+	public Bag getCustomer(Bag inBag) {
+		
+		
+		Bag outBag = new Bag();
+		long customerId = Long.parseLong(inBag.get("CUSTOMER_ID").toString());
+		
+		CustomerRepository customerRepository = new CustomerRepository();
+		Customer customer = customerRepository.get(customerId);
+		
+		outBag.put("CUSTOMER", customer);
+		return outBag;
+	}
+	
+	
+	public Bag getRandomCustomer(Bag inBag) {
+		Bag outBag = new Bag();
+		
 		CustomerRepository customerRepository = new CustomerRepository();
 		List<Customer> customers = customerRepository.getAll();
 		Random rand = new Random();
-		return customers.get(rand.nextInt(customers.size()));
+		Customer customer = customers.get(rand.nextInt(customers.size()));
+		
+		outBag.put("CUSTOMER", customer);
+		return outBag;
 	}
 }

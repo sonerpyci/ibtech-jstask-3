@@ -22,7 +22,8 @@ public class MethodTblRepository extends BaseRepository<MethodTbl> {
 	@Transactional
 	public MethodTbl get(long id) {
 		MethodTbl method = get(MethodTbl.class, id);
-		method.getClass();
+		method.getCommandTbl();
+		method.getParameters();
 		return method;
 	}
 	
@@ -46,6 +47,7 @@ public class MethodTblRepository extends BaseRepository<MethodTbl> {
             if (!entityRecords.isEmpty()) {
             	MethodTbl entity = entityRecords.get(0);
             	entity.getCommandTbl();
+            	entity.getParameters();
             	return entity;
             }
             

@@ -29,6 +29,6 @@
 
         <mapping class="com.payci.soner.entities.reflection.CommandTbl"/>
         <mapping class="com.payci.soner.entities.reflection.MethodTbl"/>
-         
+        <mapping class="com.payci.soner.entities.reflection.ParamTbl"/>
     </session-factory>
 </hibernate-configuration>

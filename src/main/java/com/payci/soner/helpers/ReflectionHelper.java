@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.payci.soner.entities.base.BaseEntity;
-
 public class ReflectionHelper {
 
 	public static Class<?> ExtractClassType(String className) {
