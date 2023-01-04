@@ -67,6 +67,8 @@ public class CommandExecuter {
 		
 		Bag outBag = (Bag)method.invoke(clsObj, paramBag);
 		
+		// TODO : 	the line below throws InvocationException due to internal use of toString()
+		// 			method. investigate it later.
 		//System.out.println(outBag);
 		
 		return outBag;
