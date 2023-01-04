@@ -1,5 +1,7 @@
 package com.payci.soner;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +18,13 @@ public class CommandExecuter {
 	
 	public Bag PrepareBag(List<ParamTbl> parameters) {
 		Bag paramBag = new Bag();
-		try (Scanner scanner = new Scanner(System.in)) {
+		BufferedReader reader = new BufferedReader(
+	            new InputStreamReader(System.in));
+		try {
+
 			for(ParamTbl parameter : parameters) {
 				System.out.print("Enter value for Parameter " + parameter.getName() + " :");
-				String paramVal = scanner.nextLine();
+				String paramVal = reader.readLine();
 				paramBag.put(parameter.getName(), paramVal);
 			}
 			return paramBag;
@@ -27,9 +32,22 @@ public class CommandExecuter {
 			System.out.println("\nException occured when filling bag params.");
 			return paramBag;
 		}
+		
+		
+//		try (Scanner scanner = new Scanner(System.in)) {
+//			for(ParamTbl parameter : parameters) {
+//				System.out.print("Enter value for Parameter " + parameter.getName() + " :");
+//				String paramVal = scanner.nextLine();
+//				paramBag.put(parameter.getName(), paramVal);
+//			}
+//			return paramBag;
+//		} catch (Exception e) {
+//			System.out.println("\nException occured when filling bag params.");
+//			return paramBag;
+//		}
 	}
 	
-	public void Execute(String commandName) throws Exception {
+	public Bag Execute(String commandName) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		MethodTblRepository methodTblRepository = new MethodTblRepository();
 		MethodTbl methodTbl = methodTblRepository.getByCommandName(commandName);
@@ -47,9 +65,11 @@ public class CommandExecuter {
 		
 		Bag paramBag = PrepareBag(methodTbl.getParameters());
 		
-		Object rv = method.invoke(clsObj, paramBag);
+		Bag outBag = (Bag)method.invoke(clsObj, paramBag);
 		
-		System.out.println(rv);
+		//System.out.println(outBag);
+		
+		return outBag;
 	}
 	
 	public void Execute(String commandName, Bag paramBag) throws Exception {

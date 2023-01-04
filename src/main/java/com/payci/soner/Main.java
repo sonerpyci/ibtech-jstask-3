@@ -21,6 +21,9 @@ public class Main {
 	public static void main(String[] args) {
 		//initializeEntities();
 		initializeCommands("com.payci.soner.operations", "CustomerOperations");
+		initializeCommands("com.payci.soner.operations", "AddressOperations");
+		initializeCommands("com.payci.soner.operations", "AccountOperations");
+		initializeCommands("com.payci.soner.operations", "PhoneOperations");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
 			System.out.print("Enter CommandName: ");  

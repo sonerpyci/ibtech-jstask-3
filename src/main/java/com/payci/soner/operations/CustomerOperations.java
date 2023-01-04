@@ -3,6 +3,7 @@ package com.payci.soner.operations;
 import java.util.List;
 import java.util.Random;
 
+import com.payci.soner.CommandExecuter;
 import com.payci.soner.entities.Account;
 import com.payci.soner.entities.Address;
 import com.payci.soner.entities.Customer;
@@ -15,9 +16,8 @@ public class CustomerOperations {
 	public Bag createStandaloneCustomer(Bag inBag) {
 		Bag outBag = new Bag();
 		
-		// TODO : check here.
-		String name = (String)inBag.get("NAME");
-		String lastName = (String)inBag.get("LAST_NAME");
+		String name = (String)inBag.get("CUSTOMER_NAME");
+		String lastName = (String)inBag.get("CUSTOMER_LAST_NAME");
 		
 		Customer customer = new Customer(name, lastName);
 		
@@ -27,33 +27,33 @@ public class CustomerOperations {
 		return outBag;
 	}
 	
-	public Bag createFullCustomer(Bag inBag) {
+	public Bag createFullCustomer(Bag inBag) throws Exception {
 		Bag outBag = new Bag();
 		
 		CustomerRepository customerRepository = new CustomerRepository();
 
-		Customer customer = new Customer("Full", "Customer");
-		customerRepository.saveOrUpdate(customer);
+		String name = (String)inBag.get("CUSTOMER_NAME");
+		String lastName = (String)inBag.get("CUSTOMER_LAST_NAME");
+		
+		Customer customer = new Customer(name, lastName);
 
-		Address address1 = new Address("Manisa", "Salihli", "45300", "bulunamayan adres.");
-		Address address2 = new Address("Gebze", "Merkez", "????", "ibtech adres.");
-		customer.addAddres(address1);
-		customer.addAddres(address2);
+		CommandExecuter commandExecuter = new CommandExecuter();
 		
-		Account account = new Account(0.0);
-		customer.addAccount(account);
+		Bag resultBag = commandExecuter.Execute("AddressOperations_createAddressCommand");
+		customer.addAddres((Address)resultBag.get("address"));
 		
-		Phone phone = new Phone("+90", "555 222 11 00");
-		customer.addPhone(phone);
+		resultBag = commandExecuter.Execute("PhoneOperations_createPhoneCommand");
+		customer.addPhone((Phone)resultBag.get("phone"));
+		
+		resultBag = commandExecuter.Execute("AccountOperations_createAccountCommand");
+		customer.addAccount((Account)resultBag.get("account"));
 
 		customerRepository.saveOrUpdate(customer);
-		
+		outBag.put("customer", customer);
 		return outBag;
 	}
 	
 	public Bag getCustomer(Bag inBag) {
-		
-		
 		Bag outBag = new Bag();
 		long customerId = Long.parseLong(inBag.get("CUSTOMER_ID").toString());
 		
