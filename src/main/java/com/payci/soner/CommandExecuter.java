@@ -69,7 +69,7 @@ public class CommandExecuter {
 		
 		// TODO : 	the line below throws InvocationException due to internal use of toString()
 		// 			method. investigate it later.
-		//System.out.println(outBag);
+		System.out.println(outBag);
 		
 		return outBag;
 	}

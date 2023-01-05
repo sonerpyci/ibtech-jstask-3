@@ -91,8 +91,12 @@ public class Address extends BaseEntity implements Serializable {
     public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-        return sb.append("Address : \n Id : ").append(id)
-        		.append("\nCustomerId : ").append(customer.getId())
-        		.toString();
+        sb.append("Address : \n Id : ").append(id)
+        .append("\n City : ").append(city)
+        .append("\n District : ").append(district);
+    		if (this.getCustomer() != null)
+    			sb.append("\nCustomerId : ").append(customer.getId());
+        		
+        return sb.toString();
     }
 }
